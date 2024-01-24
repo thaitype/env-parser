@@ -52,7 +52,7 @@ export class GithubActions {
   setInputs(inputs: SimpleJsonSchema): GithubActions;
   setInputs(inputs: SimpleJsonSchema | z.ZodTypeAny) {
     // https://lightrun.com/answers/colinhacks-zod-how-to-check-if-subject-is-zodobject
-    if ('_def' in inputs && inputs?._def?.typeName === 'ZodObject') {
+    if ('_def' in inputs && (inputs?._def?.typeName === 'ZodObject' || inputs?._def?.typeName === 'ZodUnion')) {
       console.log('JSON Schema from Zod: ', zodToJsonSchema(inputs));
     } else {
       console.log('JSON Schema: ', inputs);
@@ -76,6 +76,7 @@ export class GithubActions {
   write() {
     console.log(`Write to ${this.options?.metadataPath}`);
     console.log('-'.repeat(40));
+    if (this.options?.dev === false) return;
     fs.writeFileSync(this.options?.metadataPath ?? 'action.yml', this.buildYaml());
   }
 
