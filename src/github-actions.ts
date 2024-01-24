@@ -1,6 +1,10 @@
+import yaml from 'js-yaml';
+import fs from 'fs';
+
 export interface ActionsMetadata extends Record<string, unknown> {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
+  inputs?: Record<string, unknown>;
   outputs?: Record<string, unknown>;
   runs?: Record<string, unknown>;
 }
@@ -26,6 +30,8 @@ export interface GithubActionsOptions {
  * Generate metadata file with inputs
  */
 export class GithubActions {
+  metadata: ActionsMetadata = {};
+
   constructor(protected readonly options?: GithubActionsOptions) {}
 
   /**
@@ -48,20 +54,26 @@ export class GithubActions {
 
   /**
    * Write when dev mode is enabled
-   * @returns 
+   * @returns
    */
 
   write() {
     console.log(`Write to ${this.options?.metadataPath}`);
     console.log('-'.repeat(40));
-    return this;
+    fs.writeFileSync(this.options?.metadataPath ?? 'action.yml', this.buildYaml());
   }
-  
+
   /**
    * Return the metadata object for yaml file
    */
 
-  build(){
+  build() {
+    // TODO: Do something with this.metadata
+    // Use data from `this.setInputs()` and `this.setMetadata()`
     return {};
+  }
+
+  buildYaml() {
+    return yaml.dump(this.build());
   }
 }
