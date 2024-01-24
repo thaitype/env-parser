@@ -1,7 +1,7 @@
 {
-  "name": "@thaitype/minimal-typescript-node-esm-starter",
-  "version": "1.0.0",
-  "description": "minimal-typescript-node-esm-starter",
+  "name": "@thaitype/actions",
+  "version": "0.0.0",
+  "description": "Type-safe Github Actions Helpers",
   "type": "module",
   "main": "./dist/main.cjs",
   "module": "./dist/main.js",
