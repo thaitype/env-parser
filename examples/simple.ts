@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { GithubActions, ZodParser } from '../src/main';
 import 'dotenv/config';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 
 /**
  * The schema for the input to the action.
@@ -14,6 +13,17 @@ const _githubActionsInputSchema = z.object({
   option_hello_age: z.string({ description: 'text' }).optional(),
 });
 
+// const _githubActionsInputSchema2 = z.union([
+//   z.object({
+//     command: z.literal('sql-server-firewall'),
+//     firewall_ip_address: z.string(),
+//     f: z.string(),
+//   }),
+//   z.object({
+//     command: z.literal('blank'),
+//   }),
+// ]);
+
 async function main() {
   const inputs = new ZodParser(_githubActionsInputSchema).getInputs();
 
@@ -24,7 +34,7 @@ async function main() {
   const dev = process.env.NODE_ENV === 'development';
 
   new GithubActions({ metadataPath, dev })
-    .setInputs(zodToJsonSchema(_githubActionsInputSchema))
+    .setInputs(_githubActionsInputSchema)
     .setMetadata({
       name: 'Hello World',
       description: 'Greet someone and record the time',

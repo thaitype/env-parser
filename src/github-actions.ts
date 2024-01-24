@@ -1,5 +1,7 @@
 import yaml from 'js-yaml';
 import fs from 'fs';
+import type { z } from 'zod';
+import zodToJsonSchema from 'zod-to-json-schema';
 
 export interface ActionsMetadata extends Record<string, unknown> {
   name?: string;
@@ -40,8 +42,22 @@ export class GithubActions {
    * @returns
    */
 
-  setInputs(inputs: SimpleJsonSchema) {
-    console.log('Inputs: ', inputs);
+  setInputs(inputs: z.ZodTypeAny): GithubActions;
+  /**
+   *
+   * @param inputs JSON Schema
+   * @returns
+   */
+
+  setInputs(inputs: SimpleJsonSchema): GithubActions;
+  setInputs(inputs: SimpleJsonSchema | z.ZodTypeAny) {
+    // https://lightrun.com/answers/colinhacks-zod-how-to-check-if-subject-is-zodobject
+    if ('_def' in inputs && inputs?._def?.typeName === 'ZodObject') {
+      console.log('JSON Schema from Zod: ', zodToJsonSchema(inputs));
+    } else {
+      console.log('JSON Schema: ', inputs);
+    }
+
     console.log('-'.repeat(40));
     return this;
   }

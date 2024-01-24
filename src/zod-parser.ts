@@ -26,8 +26,8 @@ export class ZodParser<T extends z.ZodTypeAny> {
   ) {
     const inputs = removePrefixInput(option?.inputs ?? process.env);
     const caseConvertion = option?.caseConvertion ?? 'lower';
-    if(caseConvertion === 'lower') this.inputs = convertKeyLowerCase(inputs);
-    else if(caseConvertion === 'upper') this.inputs = convertKeyUpperCase(inputs);
+    if (caseConvertion === 'lower') this.inputs = convertKeyLowerCase(inputs);
+    else if (caseConvertion === 'upper') this.inputs = convertKeyUpperCase(inputs);
     else this.inputs = inputs;
     this.defaultReadable = option?.defaultReadable ?? true;
   }
