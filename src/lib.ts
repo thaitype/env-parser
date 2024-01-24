@@ -6,10 +6,11 @@ import type { CamelCasedPropertiesDeep } from 'type-fest';
 /**
  * Ref: https://github.com/colinhacks/zod/issues/486#issuecomment-1501097361
  */
-export const zodToCamelCase = <T extends z.ZodTypeAny>(
+export function zodToCamelCase<T extends z.ZodTypeAny>(
   zod: T
-): z.ZodEffects<z.ZodTypeAny, CamelCasedPropertiesDeep<T['_output']>> =>
-  zod.transform(val => camelcaseKeys(val) as CamelCasedPropertiesDeep<T>);
+): z.ZodEffects<z.ZodTypeAny, CamelCasedPropertiesDeep<T['_output']>> {
+  return zod.transform(val => camelcaseKeys(val) as CamelCasedPropertiesDeep<T>);
+}
 
 /**
  * The schema for the input to the action.
