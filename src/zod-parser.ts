@@ -15,7 +15,7 @@ export interface GithubActionsOptions {
   defaultReadable?: boolean;
 }
 
-export class ZodGithubActions<T extends z.ZodTypeAny> {
+export class ZodParser<T extends z.ZodTypeAny> {
   protected readonly inputs: Record<string, unknown>;
   protected readonly defaultReadable: boolean;
 

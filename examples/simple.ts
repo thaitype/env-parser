@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ZodGithubActions } from '../src/main';
+import { GithubActions, ZodParser } from '../src/main';
 import 'dotenv/config';
 
 /**
@@ -14,7 +14,7 @@ const _githubActionsInputSchema = z.object({
 });
 
 async function main() {
-  const inputs = new ZodGithubActions(_githubActionsInputSchema).getInputs();
+  const inputs = new ZodParser(_githubActionsInputSchema).getInputs();
 
   console.log(inputs);
 }
@@ -23,3 +23,18 @@ main().catch(err => {
   console.error(err.message);
   process.exit(1);
 });
+
+
+export const actions = new GithubActions({
+  name: 'Hello World',
+  description: 'Greet someone and record the time',
+  outputs: {
+    time: {
+      description: 'The time we greeted you',
+    },
+  },
+  runs: {
+    using: 'node20',
+    main: 'index.js',
+  },
+}, new ZodParser(_githubActionsInputSchema).getInputs());

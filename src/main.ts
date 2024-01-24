@@ -1,2 +1,3 @@
 export * from './lib';
-export * from './zod-github-actions';
+export * from './zod-parser';
+export * from './github-actions';
