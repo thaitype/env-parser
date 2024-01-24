@@ -1,4 +1,12 @@
+import type { z } from 'zod';
+import camelcaseKeys from 'camelcase-keys';
+// need CamelCasedPropertiesDeep because of https://github.com/sindresorhus/camelcase-keys/issues/77#issuecomment-1339844470
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 
-export function sum(num1: number, num2: number): number {
-  return num1 + num2;
-}
+/**
+ * Ref: https://github.com/colinhacks/zod/issues/486#issuecomment-1501097361
+ */
+export const zodToCamelCase = <T extends z.ZodTypeAny>(
+  zod: T
+): z.ZodEffects<z.ZodTypeAny, CamelCasedPropertiesDeep<T['_output']>> =>
+  zod.transform(val => camelcaseKeys(val) as CamelCasedPropertiesDeep<T>);
