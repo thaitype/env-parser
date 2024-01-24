@@ -20,7 +20,10 @@ async function main() {
   console.log(inputs);
   console.log('-'.repeat(40));
 
-  new GithubActions()
+  const metadataPath = './action.yml';
+  const dev = process.env.NODE_ENV === 'development';
+
+  new GithubActions({ metadataPath, dev })
     .setInputs(zodToJsonSchema(_githubActionsInputSchema))
     .setMetadata({
       name: 'Hello World',
@@ -35,7 +38,7 @@ async function main() {
         main: 'index.js',
       },
     })
-    .writeTo('../src/actions.yml');
+    .write();
 }
 
 main().catch(err => {

@@ -1,6 +1,4 @@
-
-
-export interface ActionsMetadata extends Record<string, unknown>{
+export interface ActionsMetadata extends Record<string, unknown> {
   name: string;
   description: string;
   outputs?: Record<string, unknown>;
@@ -14,6 +12,12 @@ export interface SimpleJsonSchema {
   properties?: Record<string, unknown>;
 }
 
+export interface GithubActionsOptions {
+  cwd?: string;
+  dev?: boolean;
+  metadataPath?: string;
+}
+
 /**
  * Ref: https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action#creating-an-action-metadata-file
  * https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
@@ -22,12 +26,12 @@ export interface SimpleJsonSchema {
  * Generate metadata file with inputs
  */
 export class GithubActions {
-  constructor() {}
+  constructor(protected readonly options?: GithubActionsOptions) {}
 
   /**
-   * 
+   *
    * @param inputs JSON Schema
-   * @returns 
+   * @returns
    */
 
   setInputs(inputs: SimpleJsonSchema) {
@@ -42,9 +46,22 @@ export class GithubActions {
     return this;
   }
 
-  writeTo(path: string) {
-    console.log(`Write to ${path}`);
+  /**
+   * Write when dev mode is enabled
+   * @returns 
+   */
+
+  write() {
+    console.log(`Write to ${this.options?.metadataPath}`);
     console.log('-'.repeat(40));
     return this;
+  }
+  
+  /**
+   * Return the metadata object for yaml file
+   */
+
+  build(){
+    return {};
   }
 }
