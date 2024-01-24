@@ -10,7 +10,7 @@ export interface GetInputsOptions {
   readable: boolean;
 }
 
-export interface GithubActionsOptions {
+export interface ParserOptions {
   inputs?: Record<string, unknown>;
   defaultReadable?: boolean;
   caseConvertion?: 'lower' | 'upper' | 'none';
@@ -22,7 +22,7 @@ export class ZodParser<T extends z.ZodTypeAny> {
 
   constructor(
     protected readonly zod: T,
-    option?: GithubActionsOptions
+    option?: ParserOptions
   ) {
     const inputs = removePrefixInput(option?.inputs ?? process.env);
     const caseConvertion = option?.caseConvertion ?? 'lower';
