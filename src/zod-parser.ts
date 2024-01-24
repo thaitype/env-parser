@@ -2,10 +2,6 @@ import type { z } from 'zod';
 import { convertKeyLowerCase, convertKeyUpperCase, removePrefixInput, zodToCamelCase } from './lib';
 import { extractErorMessage } from './utils';
 
-export function getInputs<T extends z.ZodTypeAny>(zod: T): z.infer<T> {
-  return zodToCamelCase(zod).parse(removePrefixInput(process.env));
-}
-
 export interface GetInputsOptions {
   readable: boolean;
 }
