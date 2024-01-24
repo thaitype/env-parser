@@ -23,3 +23,20 @@ export function removePrefixInput(obj: Record<string, unknown>) {
   }
   return newObj;
 }
+
+
+export function convertKeyLowerCase(obj: Record<string, unknown>) {
+  const newObj: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    newObj[key.toLowerCase()] = value;
+  }
+  return newObj;
+}
+
+export function convertKeyUpperCase(obj: Record<string, unknown>) {
+  const newObj: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    newObj[key.toUpperCase()] = value;
+  }
+  return newObj;
+}
