@@ -17,7 +17,7 @@ const _githubActionsInputSchema = z.object({
 //   z.object({
 //     command: z.literal('sql-server-firewall'),
 //     firewall_ip_address: z.string(),
-//     f: z.string(),
+//     firewall_rule_name: z.string(),
 //   }),
 //   z.object({
 //     command: z.literal('blank'),

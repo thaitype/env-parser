@@ -10,12 +10,25 @@ export interface ActionsMetadata extends Record<string, unknown> {
   outputs?: Record<string, unknown>;
   runs?: Record<string, unknown>;
 }
-
+export type UnknownRecord = Record<string, unknown>;
 export interface SimpleJsonSchema {
-  type?: unknown;
+  type?: string | unknown;
   description?: string;
   required?: string[];
-  properties?: Record<string, unknown>;
+  properties?:
+    | UnknownRecord
+    | Record<
+        string,
+        {
+          type?: string;
+          description?: string;
+          /**
+           * From `z.literal()`
+           */
+          const?: string;
+        }
+      >;
+  anyOf?: SimpleJsonSchema[] | UnknownRecord[];
 }
 
 export interface GithubActionsOptions {
@@ -51,12 +64,16 @@ export class GithubActions {
 
   setInputs(inputs: SimpleJsonSchema): GithubActions;
   setInputs(inputs: SimpleJsonSchema | z.ZodTypeAny) {
+    let result: SimpleJsonSchema = {};
     // https://lightrun.com/answers/colinhacks-zod-how-to-check-if-subject-is-zodobject
     if ('_def' in inputs && (inputs?._def?.typeName === 'ZodObject' || inputs?._def?.typeName === 'ZodUnion')) {
-      console.log('JSON Schema from Zod: ', zodToJsonSchema(inputs));
+      result = zodToJsonSchema(inputs);
+      console.log('JSON Schema from Zod: ');
     } else {
-      console.log('JSON Schema: ', inputs);
+      result = inputs;
+      console.log('JSON Schema: ');
     }
+    console.log(JSON.stringify(result, null, 2));
 
     console.log('-'.repeat(40));
     return this;
