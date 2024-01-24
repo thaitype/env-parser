@@ -13,10 +13,9 @@ const _githubActionsInputSchema = z.object({
   option_hello_age: z.string().optional(),
 });
 
-// export const githubActionInputs = zodToCamelCase(_githubActionsInputSchema);
-
 async function main() {
   const inputs = new ZodGithubActions(_githubActionsInputSchema).getInputs();
+
   console.log(inputs);
 }
 

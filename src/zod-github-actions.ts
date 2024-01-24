@@ -10,7 +10,7 @@ export interface GetInputsOptions {
   readable: boolean;
 }
 
-export interface ZodGithubActionsOptions {
+export interface GithubActionsOptions {
   inputs?: Record<string, unknown>;
   defaultReadable?: boolean;
 }
@@ -21,7 +21,7 @@ export class ZodGithubActions<T extends z.ZodTypeAny> {
 
   constructor(
     protected readonly zod: T,
-    option?: ZodGithubActionsOptions
+    option?: GithubActionsOptions
   ) {
     this.inputs = option?.inputs ?? process.env;
     this.defaultReadable = option?.defaultReadable ?? true;
