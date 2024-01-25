@@ -13,17 +13,6 @@ const _githubActionsInputSchema = z.object({
   option_hello_age: z.string({ description: 'text' }).optional(),
 });
 
-// const _githubActionsInputSchema2 = z.union([
-//   z.object({
-//     command: z.literal('sql-server-firewall'),
-//     firewall_ip_address: z.string(),
-//     firewall_rule_name: z.string(),
-//   }),
-//   z.object({
-//     command: z.literal('blank'),
-//   }),
-// ]);
-
 async function main() {
   const inputs = new ZodParser(_githubActionsInputSchema).getInputs();
 
@@ -34,7 +23,7 @@ async function main() {
   const dev = process.env.NODE_ENV === 'development';
 
   new GithubActions({ metadataPath, dev })
-    .setInputs(_githubActionsInputSchema)
+    .setInputs(z.string())
     .setMetadata({
       name: 'Hello World',
       description: 'Greet someone and record the time',
@@ -50,6 +39,7 @@ async function main() {
     })
     .write();
 }
+
 
 main().catch(err => {
   console.error(err.message);

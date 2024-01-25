@@ -3,6 +3,27 @@ import fs from 'fs';
 import type { z } from 'zod';
 import zodToJsonSchema from 'zod-to-json-schema';
 
+/**
+ * Ref: https://lightrun.com/answers/colinhacks-zod-how-to-check-if-subject-is-zodobject
+ * @param schema
+ * @returns
+ */
+export function isZodObject<T extends z.ZodRawShape>(
+  schema: SimpleJsonSchema | z.ZodTypeAny
+): schema is z.ZodObject<T> {
+  return '_def' in schema && schema._def?.typeName === 'ZodObject';
+}
+
+export function isZodUnion<T extends readonly [z.ZodTypeAny, ...z.ZodTypeAny[]]>(
+  schema: SimpleJsonSchema | z.ZodTypeAny
+): schema is z.ZodUnion<T> {
+  return '_def' in schema && schema._def?.typeName === 'ZodUnion';
+}
+
+export function isZodSchema(schema: SimpleJsonSchema | z.ZodTypeAny): schema is z.ZodTypeAny {
+  return '_def' in schema;
+}
+
 export interface ActionsMetadata extends Record<string, unknown> {
   name?: string;
   description?: string;
@@ -65,10 +86,14 @@ export class GithubActions {
   setInputs(inputs: SimpleJsonSchema): GithubActions;
   setInputs(inputs: SimpleJsonSchema | z.ZodTypeAny) {
     let result: SimpleJsonSchema = {};
-    // https://lightrun.com/answers/colinhacks-zod-how-to-check-if-subject-is-zodobject
-    if ('_def' in inputs && (inputs?._def?.typeName === 'ZodObject' || inputs?._def?.typeName === 'ZodUnion')) {
+    if (isZodObject(inputs)) {
       result = zodToJsonSchema(inputs);
-      console.log('JSON Schema from Zod: ');
+      console.log('JSON Schema from ZodObject: ');
+    } else if(isZodUnion(inputs)) {
+      result = zodToJsonSchema(inputs);
+      console.log('JSON Schema from ZodUnion: ');
+    } else if(isZodSchema(inputs)) {
+      throw new Error('ZodSchema is not supported, please use ZodObject or ZodUnion');
     } else {
       result = inputs;
       console.log('JSON Schema: ');
@@ -104,7 +129,9 @@ export class GithubActions {
   build() {
     // TODO: Do something with this.metadata
     // Use data from `this.setInputs()` and `this.setMetadata()`
-    return {};
+    return {
+      name: 'My Action',
+    };
   }
 
   buildYaml() {
