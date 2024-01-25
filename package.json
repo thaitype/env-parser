@@ -1,6 +1,6 @@
 {
   "name": "@thaitype/actions",
-  "version": "0.0.0-canary.4",
+  "version": "0.1.0",
   "description": "Type-safe Github Actions Helpers",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
