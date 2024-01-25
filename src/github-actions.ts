@@ -2,7 +2,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import type { z } from 'zod';
 import zodToJsonSchema from 'zod-to-json-schema';
-import { isZodObject, isZodSchema, isZodUnion, validateZodSchema } from './zod-helper';
+import { isZodObject, isZodSchema, isZodUnion, validateZodSchema } from './zod/zod-helper';
 import type { SimpleJsonSchema } from './types';
 
 export interface ActionsMetadata extends Record<string, unknown> {

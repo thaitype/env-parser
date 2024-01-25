@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { SimpleJsonSchema } from './types';
+import type { SimpleJsonSchema } from '../types';
 
 /**
  * Ref: https://lightrun.com/answers/colinhacks-zod-how-to-check-if-subject-is-zodobject

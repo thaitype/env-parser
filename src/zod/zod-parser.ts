@@ -1,6 +1,6 @@
 import type { z } from 'zod';
-import { convertKeyLowerCase, convertKeyUpperCase, removePrefixInput, zodToCamelCase } from './lib';
-import { extractErorMessage } from './utils';
+import { convertKeyLowerCase, convertKeyUpperCase, removePrefixInput, zodToCamelCase } from '../lib';
+import { extractErorMessage } from '../utils';
 
 export interface GetInputsOptions {
   readable: boolean;
