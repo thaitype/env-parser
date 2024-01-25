@@ -9,7 +9,7 @@ export interface GetInputsOptions {
 export interface ParserOptions {
   inputs?: Record<string, unknown>;
   defaultReadable?: boolean;
-  caseConvertion?: 'lower' | 'upper' | 'none';
+  caseConversion?: 'lower' | 'upper' | 'none';
 }
 
 export class ZodParser<T extends z.ZodTypeAny> {
@@ -21,11 +21,15 @@ export class ZodParser<T extends z.ZodTypeAny> {
     option?: ParserOptions
   ) {
     const inputs = removePrefixInput(option?.inputs ?? process.env);
-    const caseConvertion = option?.caseConvertion ?? 'lower';
-    if (caseConvertion === 'lower') this.inputs = convertKeyLowerCase(inputs);
-    else if (caseConvertion === 'upper') this.inputs = convertKeyUpperCase(inputs);
-    else this.inputs = inputs;
+    this.inputs = this.convertCase(inputs, option);
     this.defaultReadable = option?.defaultReadable ?? true;
+  }
+
+  convertCase(inputs: Record<string, unknown>, option?: ParserOptions): Record<string, unknown> {
+    const caseConvertion = option?.caseConversion ?? 'lower';
+    if (caseConvertion === 'lower') return convertKeyLowerCase(inputs);
+    else if (caseConvertion === 'upper') return convertKeyUpperCase(inputs);
+    else return inputs;
   }
 
   getInputs(option?: GetInputsOptions): z.infer<T> {
