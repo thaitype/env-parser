@@ -1,6 +1,6 @@
 {
   "name": "@thaitype/actions",
-  "version": "0.0.0-canary.0",
+  "version": "0.0.0-canary.1",
   "description": "Type-safe Github Actions Helpers",
   "type": "module",
   "main": "./dist/main.cjs",
@@ -13,6 +13,10 @@
       "default": "./dist/main.cjs"
     }
   },
+  "files": [
+    "dist/**",
+    "src/**"
+  ],
   "scripts": {
     "all": "run-s lint build test:coverage",
     "start": "tsx src/main.ts",
