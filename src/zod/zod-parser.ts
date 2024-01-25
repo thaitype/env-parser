@@ -1,6 +1,7 @@
 import type { z } from 'zod';
-import { convertKeyLowerCase, convertKeyUpperCase, removePrefixInput, zodToCamelCase } from '../lib';
+import { convertKeyLowerCase, convertKeyUpperCase, removePrefixInput } from '../lib';
 import { extractErorMessage } from '../utils';
+import { zodToCamelCase } from './zod-helper';
 
 export interface GetInputsOptions {
   readable: boolean;
@@ -32,7 +33,7 @@ export class ZodParser<T extends z.ZodTypeAny> {
     else return inputs;
   }
 
-  getInputs(option?: GetInputsOptions): z.infer<T> {
+  getInputs(option?: GetInputsOptions) {
     const readable = option?.readable ?? this.defaultReadable;
     try {
       return zodToCamelCase(this.zod).parse(this.inputs);
@@ -40,9 +41,5 @@ export class ZodParser<T extends z.ZodTypeAny> {
       if (readable === true) throw new Error(extractErorMessage(err));
       throw err;
     }
-  }
-
-  getSafeInputs(): z.SafeParseReturnType<T, z.infer<T>> {
-    return zodToCamelCase(this.zod).safeParse(this.inputs);
   }
 }
