@@ -47,26 +47,11 @@ const _githubActionsInputSchema = z.object({
 Use the provided `ZodParser` to obtain type-safe GitHub Actions inputs:
 
 ```ts
-import { GithubActions, ZodParser } from '@thaitype/actions';
+import { ZodParser } from '@thaitype/actions';
 
 export async function githubInputs() {
-  const inputs = new ZodParser(_githubActionsInputSchema).getInputs();
-  const metadataPath = './action.yml';
-  const dev = process.env.NODE_ENV === 'development';
-
-  new GithubActions({ metadataPath, dev })
-    .setInputs(_githubActionsInputSchema)
-    .setMetadata({
-      name: 'Hello World',
-      description: 'Greet someone and record the time',
-      runs: {
-        using: 'node20',
-        main: 'index.js',
-      },
-    })
-    .write();
+  return new ZodParser(_githubActionsInputSchema).getInputs();
 }
-
 ```
 
 Access the type-safe inputs:
@@ -90,6 +75,27 @@ INPUT_COMMAND=hello
 INPUT_EXTRA_PARAMETERS=extra
 INPUT_OPTION_HELLO_NAME=thaitype
 INPUT_OPTION_HELLO_AGE=2
+```
+
+You can also automatically generate `action.yaml` metadata files from your Zod schema. This is useful for ensuring your `action.yaml` file is always up-to-date with your schema. To do this, use the `ZodParser` class:
+
+```ts
+import { GithubActions } from '@thaitype/actions';
+
+const metadataPath = './action.yml';
+const dev = process.env.NODE_ENV === 'development';
+
+new GithubActions({ metadataPath, dev })
+  .setInputs(_githubActionsInputSchema)
+  .setMetadata({
+    name: 'Hello World',
+    description: 'Greet someone and record the time',
+    runs: {
+      using: 'node20',
+      main: 'index.js',
+    },
+  })
+  .write();
 ```
 
 ## Features
