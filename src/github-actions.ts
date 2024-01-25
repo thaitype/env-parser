@@ -24,6 +24,12 @@ export function isZodSchema(schema: SimpleJsonSchema | z.ZodTypeAny): schema is 
   return '_def' in schema;
 }
 
+export function validateZodSchema(schema: SimpleJsonSchema | z.ZodTypeAny): asserts schema is SimpleJsonSchema {
+  if(isZodSchema(schema) && !isZodObject(schema) && !isZodUnion(schema)) {
+    throw new Error('Only ZodObject and ZodUnion are supported');
+  }
+}
+
 export interface ActionsMetadata extends Record<string, unknown> {
   name?: string;
   description?: string;
@@ -89,12 +95,11 @@ export class GithubActions {
     if (isZodObject(inputs)) {
       result = zodToJsonSchema(inputs);
       console.log('JSON Schema from ZodObject: ');
-    } else if(isZodUnion(inputs)) {
+    } else if (isZodUnion(inputs)) {
       result = zodToJsonSchema(inputs);
       console.log('JSON Schema from ZodUnion: ');
-    } else if(isZodSchema(inputs)) {
-      throw new Error('ZodSchema is not supported, please use ZodObject or ZodUnion');
-    } else {
+    } else if (!isZodSchema(inputs)) {
+      validateZodSchema(inputs);
       result = inputs;
       console.log('JSON Schema: ');
     }

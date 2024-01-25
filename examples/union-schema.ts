@@ -8,12 +8,12 @@ import 'dotenv/config';
  */
 const _githubActionsInputSchema = z.union([
   z.object({
-    command: z.literal('sql-server-firewall'),
-    firewall_ip_address: z.string(),
-    firewall_rule_name: z.string(),
+    command: z.literal('hello'),
+    option_hello_name: z.string().optional(),
+    option_hello_age: z.string({ description: 'text' }).optional(),
   }),
   z.object({
-    command: z.literal('blank'),
+    command: z.literal('goodbye'),
   }),
 ]);
 
