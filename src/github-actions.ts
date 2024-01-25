@@ -3,15 +3,8 @@ import fs from 'fs';
 import type { z } from 'zod';
 import zodToJsonSchema from 'zod-to-json-schema';
 import { isZodObject, isZodSchema, isZodUnion, validateZodSchema } from './zod/zod-helper';
-import type { SimpleJsonSchema } from './types';
-
-export interface ActionsMetadata extends Record<string, unknown> {
-  name?: string;
-  description?: string;
-  inputs?: Record<string, unknown>;
-  outputs?: Record<string, unknown>;
-  runs?: Record<string, unknown>;
-}
+import type { ActionsMetadata, SimpleJsonSchema } from './types';
+import { parseJsonSchemaToInputsMetadata } from './parse-json-schema';
 
 export interface GithubActionsOptions {
   cwd?: string;
@@ -27,7 +20,8 @@ export interface GithubActionsOptions {
  * Generate metadata file with inputs
  */
 export class GithubActions {
-  metadata: ActionsMetadata = {};
+  protected metadata: ActionsMetadata = {};
+  protected inputs: SimpleJsonSchema = {};
 
   constructor(protected readonly options?: GithubActionsOptions) {}
 
@@ -46,16 +40,11 @@ export class GithubActions {
 
   setInputs(inputs: SimpleJsonSchema): GithubActions;
   setInputs(inputs: SimpleJsonSchema | z.ZodTypeAny) {
-    let result: SimpleJsonSchema = {};
     if (isZodSchema(inputs)) {
-      result = this.setInputsFromZodSchema(inputs);
+      this.inputs = this.setInputsFromZodSchema(inputs);
     } else {
-      result = inputs;
-      console.log('JSON Schema: ');
+      this.inputs = inputs;
     }
-    console.log(JSON.stringify(result, null, 2));
-
-    console.log('-'.repeat(40));
     return this;
   }
 
@@ -63,18 +52,19 @@ export class GithubActions {
     let result: SimpleJsonSchema = {};
     validateZodSchema(schema);
     if (isZodObject(schema)) {
+      console.debug('Convert ZodObject to JSON Schema');
       result = zodToJsonSchema(schema);
-      console.log('JSON Schema from ZodObject: ');
+      console.debug('Converted JSON Schema from ZodObject');
     } else if (isZodUnion(schema)) {
+      console.debug('Convert ZodUnion to JSON Schema');
       result = zodToJsonSchema(schema);
-      console.log('JSON Schema from ZodUnion: ');
+      console.debug('Converted JSON Schema from ZodUnion');
     }
     return result;
   }
 
   setMetadata(metadata: ActionsMetadata) {
-    console.log('Metadata: ', metadata);
-    console.log('-'.repeat(40));
+    this.metadata = metadata;
     return this;
   }
 
@@ -94,11 +84,10 @@ export class GithubActions {
    * Return the metadata object for yaml file
    */
 
-  build() {
-    // TODO: Do something with this.metadata
-    // Use data from `this.setInputs()` and `this.setMetadata()`
+  build(): ActionsMetadata {
     return {
-      name: 'My Action',
+      ...this.metadata,
+      inputs: parseJsonSchemaToInputsMetadata(this.inputs),
     };
   }
 
