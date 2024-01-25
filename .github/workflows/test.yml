@@ -5,12 +5,12 @@ on:
     branches: [ main ]
     paths-ignore:
       - '**/*.md'
-      - '.github'
+      # - '.github'
   pull_request:
     branches: [ main ]
     paths-ignore:
       - '**/*.md'
-      - '.github'
+      # - '.github'
 
 env:
   pnpm_version: 8
@@ -41,3 +41,5 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           name: ${{ matrix.os }}/${{ matrix.node-version }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
