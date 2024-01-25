@@ -138,6 +138,5 @@ describe('test parseJsonSchemaToInputsMetadata with Unsupported ZodUnion', () =>
 
   test('test parseJsonSchemaToInputsMetadata with ZodUnion of ZodObject and ZodNumber', () => {
     expect(() => parseHelper(z.union([z.number(), z.object({ name: z.string() })]))).toThrow();
-  }); 
-
+  });
 });
