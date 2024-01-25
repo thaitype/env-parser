@@ -25,7 +25,7 @@ export function isZodSchema(schema: SimpleJsonSchema | z.ZodTypeAny): schema is 
 }
 
 export function validateZodSchema(schema: SimpleJsonSchema | z.ZodTypeAny): asserts schema is SimpleJsonSchema {
-  if(isZodSchema(schema) && !isZodObject(schema) && !isZodUnion(schema)) {
+  if (isZodSchema(schema) && !isZodObject(schema) && !isZodUnion(schema)) {
     throw new Error('Only ZodObject and ZodUnion are supported');
   }
 }
@@ -92,14 +92,9 @@ export class GithubActions {
   setInputs(inputs: SimpleJsonSchema): GithubActions;
   setInputs(inputs: SimpleJsonSchema | z.ZodTypeAny) {
     let result: SimpleJsonSchema = {};
-    if (isZodObject(inputs)) {
-      result = zodToJsonSchema(inputs);
-      console.log('JSON Schema from ZodObject: ');
-    } else if (isZodUnion(inputs)) {
-      result = zodToJsonSchema(inputs);
-      console.log('JSON Schema from ZodUnion: ');
-    } else if (!isZodSchema(inputs)) {
-      validateZodSchema(inputs);
+    if (isZodSchema(inputs)) {
+      result = this.setInputsFromZodSchema(inputs);
+    } else {
       result = inputs;
       console.log('JSON Schema: ');
     }
@@ -107,6 +102,19 @@ export class GithubActions {
 
     console.log('-'.repeat(40));
     return this;
+  }
+
+  private setInputsFromZodSchema(schema: z.ZodTypeAny): SimpleJsonSchema {
+    let result: SimpleJsonSchema = {};
+    validateZodSchema(schema);
+    if (isZodObject(schema)) {
+      result = zodToJsonSchema(schema);
+      console.log('JSON Schema from ZodObject: ');
+    } else if (isZodUnion(schema)) {
+      result = zodToJsonSchema(schema);
+      console.log('JSON Schema from ZodUnion: ');
+    }
+    return result;
   }
 
   setMetadata(metadata: ActionsMetadata) {

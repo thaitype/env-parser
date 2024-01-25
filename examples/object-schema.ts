@@ -23,7 +23,7 @@ async function main() {
   const dev = process.env.NODE_ENV === 'development';
 
   new GithubActions({ metadataPath, dev })
-    .setInputs(z.string())
+    .setInputs(_githubActionsInputSchema)
     .setMetadata({
       name: 'Hello World',
       description: 'Greet someone and record the time',
