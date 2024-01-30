@@ -7,19 +7,18 @@ export interface ParserOptions {
 }
 
 export abstract class BaseRecordParser {
-  protected readonly inputs: Record<string, unknown>;
   protected readonly readable: boolean;
 
-  constructor(inputs: Record<string, unknown>, option?: ParserOptions) {
-    this.inputs = this.convertCase(removePrefixInput(inputs, option?.removePrefix), option);
+  constructor(protected readonly option?: ParserOptions) {
     this.readable = option?.readable ?? true;
   }
 
-  convertCase(inputs: Record<string, unknown>, option?: ParserOptions): Record<string, unknown> {
-    const caseConvertion = option?.caseConversion ?? 'lower';
-    if (caseConvertion === 'lower') return convertKeyLowerCase(inputs);
-    else if (caseConvertion === 'upper') return convertKeyUpperCase(inputs);
-    else return inputs;
+  convertCase(inputs: Record<string, unknown>): Record<string, unknown> {
+    const parsedInputs = removePrefixInput(inputs, this.option?.removePrefix);
+    const caseConvertion = this.option?.caseConversion ?? 'lower';
+    if (caseConvertion === 'lower') return convertKeyLowerCase(parsedInputs);
+    else if (caseConvertion === 'upper') return convertKeyUpperCase(parsedInputs);
+    else return parsedInputs;
   }
 
   abstract parse(schema: unknown): unknown;

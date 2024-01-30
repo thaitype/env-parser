@@ -22,13 +22,13 @@ describe('Empty Parser', () => {
     };
     class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super(inputs, {
+        super({
           caseConversion: 'none',
         });
       }
 
-      parse(obj: unknown) {
-        return this.inputs;
+      parse(inputs: Record<string, unknown>) {
+        return this.convertCase(inputs);
       }
     }
 
@@ -41,13 +41,13 @@ describe('Empty Parser', () => {
     };
     class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super(inputs, {
+        super({
           caseConversion: 'lower',
         });
       }
 
-      parse(obj: unknown) {
-        return this.inputs;
+      parse(inputs: Record<string, unknown>) {
+        return this.convertCase(inputs);
       }
     }
 
@@ -62,13 +62,13 @@ describe('Empty Parser', () => {
     };
     class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super(inputs, {
+        super({
           caseConversion: 'upper',
         });
       }
 
-      parse(obj: unknown) {
-        return this.inputs;
+      parse(inputs: Record<string, unknown>) {
+        return this.convertCase(inputs);
       }
     }
 
@@ -83,13 +83,13 @@ describe('Empty Parser', () => {
     };
     class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super(inputs, {
+        super({
           removePrefix: 'INPUT_',
         });
       }
 
-      parse(obj: unknown) {
-        return this.inputs;
+      parse(inputs: Record<string, unknown>) {
+        return this.convertCase(inputs);
       }
     }
 

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RecordParser } from '../src/main';
+import { zodParser } from '../src/main';
 import 'dotenv/config';
 
 const schema = z.object({
@@ -9,5 +9,5 @@ const schema = z.object({
   option_hello_age: z.string({ description: 'text' }).optional(),
 });
 
-const inputs = new RecordParser(process.env).parse(schema);
+const inputs = zodParser(schema).parse(process.env);
 console.log(`Env variables: `, inputs);

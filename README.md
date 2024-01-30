@@ -35,7 +35,7 @@ const convertedEnv = {
 ```ts
 import { z } from 'zod';
 import 'dotenv/config';
-import { RecordParser } from '@thaitype/record-parser/zod';
+import { zodParser } from '@thaitype/record-parser/zod';
 
 export const envSchema = z.object({
   next_public_portal_url: z.string(),
@@ -45,7 +45,7 @@ export const envSchema = z.object({
 });
 
 export function getEnv() {
-  return new RecordParser(process.env).parse(envSchema);
+  return zodParser(envSchema).parse(process.env);
 }
 
 const convertedEnv = getEnv();
