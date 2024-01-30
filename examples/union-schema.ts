@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { EnvParser } from '../src/main';
+import { RecordParser } from '../src/main';
 import 'dotenv/config';
 
 const schema = z.union([
@@ -13,5 +13,5 @@ const schema = z.union([
   }),
 ]);
 
-const inputs = new EnvParser().parse(schema);
+const inputs = new RecordParser(process.env).parse(schema);
 console.log(`Env variables: `, inputs);

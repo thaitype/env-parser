@@ -1,19 +1,17 @@
 import { convertKeyLowerCase, convertKeyUpperCase, removePrefixInput } from './lib';
 
 export interface ParserOptions {
-  inputs?: Record<string, unknown>;
   readable?: boolean;
   caseConversion?: 'lower' | 'upper' | 'none';
   removePrefix?: string;
 }
 
-export abstract class BaseEnvParser {
+export abstract class BaseRecordParser {
   protected readonly inputs: Record<string, unknown>;
   protected readonly readable: boolean;
 
-  constructor(option?: ParserOptions) {
-    const inputs = removePrefixInput(option?.inputs ?? process.env, option?.removePrefix);
-    this.inputs = this.convertCase(inputs, option);
+  constructor(inputs: Record<string, unknown>, option?: ParserOptions) {
+    this.inputs = this.convertCase(removePrefixInput(inputs, option?.removePrefix), option);
     this.readable = option?.readable ?? true;
   }
 
