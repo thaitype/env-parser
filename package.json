@@ -41,7 +41,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaitype/env-parser.git"
+    "url": "https://github.com/thaitype/record-parser.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
