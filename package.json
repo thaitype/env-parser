@@ -1,6 +1,6 @@
 {
   "name": "@thaitype/record-parser",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Parse any record (e.g. Env Variables) and Convert keys from SnakeCase to CamelCase for consistent usage.",
   "main": "dist/main.js",
   "module": "dist/main.mjs",
