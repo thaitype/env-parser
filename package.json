@@ -1,6 +1,6 @@
 {
   "name": "@thaitype/env-parser",
-  "version": "0.0.0",
+  "version": "0.0.0-canary.0",
   "description": "Parse environment variables and Convert keys from SnakeCase to CamelCase for consistent usage.",
   "main": "dist/main.js",
   "module": "dist/main.mjs",
