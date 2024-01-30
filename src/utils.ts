@@ -7,7 +7,7 @@ export function extractErorMessage(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return error.message + error.stack;
+    return `${error.message} ${error.stack}`;
   }
 
   return String(error);
