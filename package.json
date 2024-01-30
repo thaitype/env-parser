@@ -1,7 +1,7 @@
 {
-  "name": "@thaitype/actions",
-  "version": "0.1.1",
-  "description": "Type-safe Github Actions Helpers",
+  "name": "@thaitype/env-parser",
+  "version": "0.0.0",
+  "description": "Parse environment variables and Convert keys from SnakeCase to CamelCase for consistent usage.",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "files": [
