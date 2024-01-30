@@ -3,27 +3,21 @@ import { convertKeyLowerCase, convertKeyUpperCase, removePrefixInput } from '../
 import { extractErorMessage } from '../utils';
 import { zodToCamelCase } from './zod-helper';
 
-export interface GetInputsOptions {
-  readable: boolean;
-}
-
 export interface ParserOptions {
   inputs?: Record<string, unknown>;
-  defaultReadable?: boolean;
+  readable?: boolean;
   caseConversion?: 'lower' | 'upper' | 'none';
+  removePrefix?: string;
 }
 
-export class ZodParser<T extends z.ZodTypeAny> {
+export class EnvParser {
   protected readonly inputs: Record<string, unknown>;
-  protected readonly defaultReadable: boolean;
+  protected readonly readable: boolean;
 
-  constructor(
-    protected readonly zod: T,
-    option?: ParserOptions
-  ) {
-    const inputs = removePrefixInput(option?.inputs ?? process.env);
+  constructor(option?: ParserOptions) {
+    const inputs = removePrefixInput(option?.inputs ?? process.env, option?.removePrefix);
     this.inputs = this.convertCase(inputs, option);
-    this.defaultReadable = option?.defaultReadable ?? true;
+    this.readable = option?.readable ?? true;
   }
 
   convertCase(inputs: Record<string, unknown>, option?: ParserOptions): Record<string, unknown> {
@@ -33,12 +27,11 @@ export class ZodParser<T extends z.ZodTypeAny> {
     else return inputs;
   }
 
-  getInputs(option?: GetInputsOptions) {
-    const readable = option?.readable ?? this.defaultReadable;
+  parse<T extends z.ZodTypeAny>(schema: T) {
     try {
-      return zodToCamelCase(this.zod).parse(this.inputs);
+      return zodToCamelCase(schema).parse(this.inputs);
     } catch (err) {
-      if (readable === true) throw new Error(extractErorMessage(err));
+      if (this.readable === true) throw new Error(extractErorMessage(err));
       throw err;
     }
   }

@@ -3,7 +3,21 @@
   "version": "0.0.0",
   "description": "Parse environment variables and Convert keys from SnakeCase to CamelCase for consistent usage.",
   "main": "dist/main.js",
+  "module": "dist/main.mjs",
   "types": "dist/main.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/main.d.ts",
+      "import": "./dist/main.mjs",
+      "default": "./dist/main.js"
+    },
+    "./zod": {
+      "types": "./dist/zod.d.ts",
+      "import": "./dist/zod.mjs",
+      "default": "./dist/zod.js"
+    }
+  },
   "files": [
     "dist/**",
     "src/**"
@@ -15,7 +29,9 @@
     "test:coverage": "vitest run --coverage",
     "test": "vitest",
     "test:ci": "vitest run",
-    "build": "rimraf ./dist && tsup src/main.ts --dts",
+    "build:main": "tsup src/main.ts --dts --format cjs,esm",
+    "build:zod": "tsup src/zod-parser/zod.ts --dts --format cjs,esm",
+    "build": "rimraf ./dist && run-p build:*",
     "format": "prettier -w src",
     "lint": "tsc --noEmit && eslint ./src && prettier -c src",
     "lint:fix": "eslint --fix ./src && prettier -w src"
@@ -23,6 +39,13 @@
   "keywords": [],
   "author": "Thada Wangthammang",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thaitype/env-parser.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.11.6",
