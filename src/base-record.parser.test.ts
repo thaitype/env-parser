@@ -1,11 +1,11 @@
 import { expect, test, describe } from 'vitest';
-import { BaseEnvParser } from './base-env-parser';
+import { BaseRecordParser } from './base-record-parser';
 
 describe('Empty Parser', () => {
   test('Empty Parser Test', () => {
-    class EmptyParserTest extends BaseEnvParser {
+    class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super();
+        super({});
       }
 
       parse(obj: unknown) {
@@ -20,10 +20,9 @@ describe('Empty Parser', () => {
     const inputs = {
       TEST: 'test',
     };
-    class EmptyParserTest extends BaseEnvParser {
+    class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super({
-          inputs,
+        super(inputs, {
           caseConversion: 'none',
         });
       }
@@ -40,10 +39,9 @@ describe('Empty Parser', () => {
     const inputs = {
       TEST: 'test',
     };
-    class EmptyParserTest extends BaseEnvParser {
+    class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super({
-          inputs,
+        super(inputs, {
           caseConversion: 'lower',
         });
       }
@@ -62,10 +60,9 @@ describe('Empty Parser', () => {
     const inputs = {
       test: 'test',
     };
-    class EmptyParserTest extends BaseEnvParser {
+    class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super({
-          inputs,
+        super(inputs, {
           caseConversion: 'upper',
         });
       }
@@ -84,10 +81,9 @@ describe('Empty Parser', () => {
     const inputs = {
       INPUT_TEST: 'test',
     };
-    class EmptyParserTest extends BaseEnvParser {
+    class EmptyParserTest extends BaseRecordParser {
       constructor() {
-        super({
-          inputs,
+        super(inputs, {
           removePrefix: 'INPUT_',
         });
       }

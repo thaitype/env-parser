@@ -1,2 +1,2 @@
 export * from './zod-helper';
-export * from './env-parser-for-zod';
+export * from './record-parser-for-zod';

@@ -1,12 +1,12 @@
 import type { z } from 'zod';
 import { extractErorMessage } from '../utils';
 import { zodToCamelCase } from './zod-helper';
-import type { ParserOptions } from '../base-env-parser';
-import { BaseEnvParser } from '../base-env-parser';
+import type { ParserOptions } from '../base-record-parser';
+import { BaseRecordParser } from '../base-record-parser';
 
-export class EnvParser extends BaseEnvParser {
-  constructor(option?: ParserOptions) {
-    super(option);
+export class RecordParser extends BaseRecordParser {
+  constructor(inputs: Record<string, unknown>, option?: ParserOptions) {
+    super(inputs, option);
   }
 
   parse<T extends z.ZodTypeAny>(schema: T) {
