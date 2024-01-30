@@ -1,5 +1,9 @@
 # @thaitype/env-parser
 
+ [![Build & Test](https://github.com/thaitype/env-parser/actions/workflows/test.yml/badge.svg)](https://github.com/thaitype/env-parser/actions/workflows/test.yml)
+ [![NPM Version ](https://img.shields.io/npm/v/@thaitype/env-parser)](https://www.npmjs.com/package/@thaitype/env-parser)
+[![codecov](https://codecov.io/gh/thaitype/env-parser/branch/main/graph/badge.svg?token=4KIB8OINNL)](https://codecov.io/gh/thaitype/env-parser)   
+
 Parse environment variables and Convert keys from SnakeCase to CamelCase for consistent usage.
 
 Only support Zod
@@ -26,7 +30,3 @@ if(env.runningMode === 'dev'){
 
 export type EnvSchema = ReturnType<typeof getEnv>;
 ```
-
- <!-- [![Build & Test](https://github.com/thaitype/actions/actions/workflows/test.yml/badge.svg)](https://github.com/thaitype/actions/actions/workflows/test.yml)
- [![NPM Version ](https://img.shields.io/npm/v/@thaitype/actions)](https://www.npmjs.com/package/@thaitype/actions)
-[![codecov](https://codecov.io/gh/thaitype/actions/branch/main/graph/badge.svg?token=Y7ZMDKFPAN)](https://codecov.io/gh/thaitype/actions)    -->
