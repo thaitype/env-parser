@@ -8,6 +8,28 @@ Parse environment variables and Convert keys from SnakeCase to CamelCase for con
 
 Only support Zod
 
+## Motivation
+
+Without this lib, we need to convert case and type manually
+
+```ts
+export const envSchema = z.object({
+  NEXT_PUBLIC_PORTAL_URL: z.string(),
+  NEXT_PUBLIC_PORTAL_WEB_URL: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+});
+
+const env = envSchema.parse(process.env);
+
+const convertedEnv = {
+  nextPublicPortalUrl: env.NEXT_PUBLIC_PORTAL_URL,
+  nextPublicPortalWebUrl: env.NEXT_PUBLIC_PORTAL_WEB_URL,
+  googleClientId: env.GOOGLE_CLIENT_ID,
+  googleClientSecret: env.GOOGLE_CLIENT_SECRET,
+}
+```
+
 ## Zod Example
 
 ```ts
@@ -16,17 +38,20 @@ import 'dotenv/config';
 import { EnvParser } from '@thaitype/env-parser/zod';
 
 export const envSchema = z.object({
-  running_mode: z.string({ description: 'Running mode' }).optional(),
+  next_public_portal_url: z.string(),
+  next_public_portal_web_url: z.string(),
+  google_client_id: z.string(),
+  google_client_secret: z.string(),
 });
 
 export function getEnv() {
   return new EnvParser().parse(envSchema);
 }
 
-const env = getEnv();
-if(env.runningMode === 'dev'){
-  console.log('Running in dev mode');
-}
+const convertedEnv = getEnv();
+console.log(convertedEnv);
 
 export type EnvSchema = ReturnType<typeof getEnv>;
 ```
+
+
