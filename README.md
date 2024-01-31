@@ -4,13 +4,13 @@
  [![NPM Version ](https://img.shields.io/npm/v/@thaitype/record-parser)](https://www.npmjs.com/package/@thaitype/record-parser)
 [![codecov](https://codecov.io/gh/thaitype/record-parser/branch/main/graph/badge.svg?token=4KIB8OINNL)](https://codecov.io/gh/thaitype/record-parser)   
 
-Parse environment variables and Convert keys from SnakeCase to CamelCase for consistent usage.
+## Overview
 
-Only support Zod
+`@thaitype/record-parser` is a TypeScript library designed to streamline the process of parsing environment variables and converting key names from SnakeCase to CamelCase. This ensures consistent and convenient usage across your application. Currently, this library exclusively supports Zod for schema definition and validation.
 
 ## Motivation
 
-Without this lib, we need to convert case and type manually
+Traditionally, converting environment variable keys involves a verbose approach, as shown below:
 
 ```ts
 export const envSchema = z.object({
@@ -30,7 +30,16 @@ const convertedEnv = {
 }
 ```
 
-## Zod Example
+With `@thaitype/record-parser`, you can achieve the same with more concise and readable code:
+
+```ts
+import { zodParser } from '@thaitype/record-parser/zod';
+const convertedEnv = zodParser(envSchema).parse(process.env);
+```
+
+## Zod Integration Example
+
+To see `@thaitype/record-parser` in action, check out the full Zod example in our [examples directory](examples):
 
 ```ts
 import { z } from 'zod';
